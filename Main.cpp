@@ -1,8 +1,8 @@
 #include <Siv3D.hpp>
-#include <HamFrameWork.hpp>
+#include <HamFramework.hpp>
 
 //PCの内蔵カメラで顔が映っているかを検出する。写ってたらTrueを返す。
-bool Face(){
+bool isFace(){
     Webcam webcam(0);
     if (!webcam.start()){
         return;
