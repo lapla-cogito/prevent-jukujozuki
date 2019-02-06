@@ -16,6 +16,22 @@ auth = tweepy.OAuthHandler(CK, CS)
 auth.set_access_token(AT, AS)
 api = tweepy.API(auth)
 
+#削除後の報告
+def report(liked,RTed):
+  #進める
+  print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% )
+
+#該当ツイートを削除する
+def del(tweetID):
+  api = 'https://api.twitter.com/1.1/statuses/destroy/' + tweet_ID + '.json'
+  req = twitter.post(api)
+  #for debug
+  if req.status_code == 200:
+    print("Success Delete!")
+  else:
+    print("Error! ErrorCode: %d" % req.status_code)
+  
+
 #5分ごとに実行
 @sched.scheduled_job('cron', minute = '0, 5, 10, 15,20,25,30,35,40,45,50,55', hour = '*/1')
 def check():
@@ -41,7 +57,12 @@ def check():
         watashiha=True
       if sec[i]=="熟女":
         jukujo=True
-      if sec[i]==""
+      #このワードは解析でどのように分けられるのか未調査
+      if sec[i]=="":
+        rorikon=True
       
+      #条件を満たしていれば削除行程へ
+      if watashiha and (jukujo or rorikon):
+        del(tweet.id)
      #for debug
      print("Done!")
