@@ -10,7 +10,7 @@ AT = os.environ["ACCESS_TOKEN_KEY"]
 AS = os.environ["ACCESS_TOKEN_SECRET"]
 
 #認証
-twitter = OAuth1Session(client_key, client_secret, resource_owner_key, resource_owner_secret)
+twitter = OAuth1Session(CK, CS, AT, AS)
 
 auth = tweepy.OAuthHandler(CK, CS)
 auth.set_access_token(AT, AS)
