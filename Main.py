@@ -11,7 +11,6 @@ AS = os.environ["ACCESS_TOKEN_SECRET"]
 
 #認証
 twitter = OAuth1Session(CK, CS, AT, AS)
-
 auth = tweepy.OAuthHandler(CK, CS)
 auth.set_access_token(AT, AS)
 api = tweepy.API(auth)
@@ -19,15 +18,16 @@ api = tweepy.API(auth)
 #削除後の報告
 def report(liked,RTed):
   #進める
-  print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% )
+  print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% liked,% RTed)
 
 #該当ツイートを削除する
-def del(tweetID):
+def del(tweetID,liked,RTed):
   api = 'https://api.twitter.com/1.1/statuses/destroy/' + tweet_ID + '.json'
   req = twitter.post(api)
   #for debug
   if req.status_code == 200:
     print("Success Delete!")
+    report(liked,RTed)
   else:
     print("Error! ErrorCode: %d" % req.status_code)
   
@@ -37,9 +37,9 @@ def del(tweetID):
 def check():
   #for debug
   print("Start checking...")
-  myinfo = api.me()
+  target = api.me()
   #対象の最新100件のツイートを取得
-  tweets = tweepy.Cursor(api.user_timeline, id = myinfo.id).items(100)
+  tweets = tweepy.Cursor(api.user_timeline, id = target.id).items(100)
   for tweet in tweets:
     sentence = tweet.text#これはツイート本文
     t = Tokenizer()
@@ -53,7 +53,7 @@ def check():
       sec.append((str)token)
       words=words+1
     for i in words:
-      if sec[i]=="私は":
+      if sec[i]=="は" and (sec[i-1]=="私" or sec[i-1]=="わたし"):
         watashiha=True
       if sec[i]=="熟女":
         jukujo=True
@@ -62,7 +62,7 @@ def check():
         rorikon=True
       
       #条件を満たしていれば削除行程へ
-      if watashiha and (jukujo or rorikon):
-        del(tweet.id)
+    if watashiha and (jukujo or rorikon):
+      del(tweet.id,tweet.favorite_count,tweet.retweet_count)
      #for debug
      print("Done!")
