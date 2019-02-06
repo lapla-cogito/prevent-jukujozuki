@@ -17,7 +17,6 @@ api = tweepy.API(auth)
 
 #削除後の報告
 def report(liked,RTed):
-  #進める
   print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% liked,% RTed)
 
 #該当ツイートを削除する
@@ -38,7 +37,7 @@ def check():
   #for debug
   print("Start checking...")
   target = api.me()
-  #対象の最新100件のツイートを取得
+  #対象の最新100件のツイートを取得(さすがに5分で100ツイートはできないと思うのでこの数)
   tweets = tweepy.Cursor(api.user_timeline, id = target.id).items(100)
   for tweet in tweets:
     sentence = tweet.text#これはツイート本文
@@ -46,11 +45,11 @@ def check():
     watasiha=False
     jukujo=False
     rorikon=False
-    #形態素解析した単語を入れていく
+    #分類した単語を入れていく
     sec=[]
     words=0
     for token in t.tokenize(sentance):
-      sec.append((str)token)
+      sec.append((str)token.surface)
       words=words+1
     for i in words:
       if sec[i]=="は" and (sec[i-1]=="私" or sec[i-1]=="わたし"):
