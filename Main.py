@@ -64,8 +64,10 @@ def check():
       #条件を満たしていれば削除行程へ
     if watashiha and (jukujo or rorikon):
       del(tweet.id,tweet.favorite_count,tweet.retweet_count)
-     #for debug
-     print("Done!")
+    else:
+      print("It seems that there is no tweet to delete...")
+    #for debug
+    print("Done!")
       
  sched.start()
 
