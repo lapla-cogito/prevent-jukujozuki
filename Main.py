@@ -16,11 +16,11 @@ auth.set_access_token(AT, AS)
 api = tweepy.API(auth)
 
 #削除後の報告
-def report(liked,RTed):
-  print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% liked,% RTed)
+def report(liked, RTed):
+  print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% liked, % RTed)
 
 #該当ツイートを削除する
-def del(tweetID,liked,RTed):
+def del(tweetID, liked, RTed):
   api = 'https://api.twitter.com/1.1/statuses/destroy/' + tweet_ID + '.json'
   req = twitter.post(api)
   #for debug
@@ -28,11 +28,11 @@ def del(tweetID,liked,RTed):
     print("Success Delete!")
     report(liked,RTed)
   else:
-    print("Error! ErrorCode: %d" % req.status_code)
+    print("Error has occured! ErrorCode: %d" % req.status_code)
   
 
 #5分ごとに実行
-@sched.scheduled_job('cron', minute = '0, 5, 10, 15,20,25,30,35,40,45,50,55', hour = '*/1')
+@sched.scheduled_job('cron', minute = '0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55', hour = '*/1')
 def check():
   #for debug
   print("Start checking...")
@@ -65,3 +65,7 @@ def check():
       del(tweet.id,tweet.favorite_count,tweet.retweet_count)
      #for debug
      print("Done!")
+      
+ sched.start()
+
+check()
