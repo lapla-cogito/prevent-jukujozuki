@@ -1,5 +1,6 @@
 import tweepy
 import datetime
+from datetime import datetime
 from janome.tokenizer import Tokenizer
 from requests_oauthlib import OAuth1Session
 
@@ -17,7 +18,7 @@ api = tweepy.API(auth)
 
 #削除後の報告
 def report(liked, RTed):
-  print("先程こちらが削除したあなたのツイートは削除までに%d件のいいねと%d件のリツイートを獲得していました!"% liked, % RTed)
+  print("先程こちらが削除したあなたのツイートは削除までの%d秒間で%d件のいいねと%d件のリツイートを獲得していました!"% % liked, % RTed)
 
 #該当ツイートを削除する
 def del(tweetID, liked, RTed):
