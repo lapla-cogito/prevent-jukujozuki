@@ -19,6 +19,7 @@ api = tweepy.API(auth)
 #削除後の報告
 def report(liked, RTed):
   print("先程こちらが削除したあなたのツイートは削除までの%d秒間で%d件のいいねと%d件のリツイートを獲得していました!"% % liked, % RTed)
+  api.PostUpdate("1件のツイートがprevent jukujozukiによって削除されました。ツイートした方、残念でしたね。")
 
 #該当ツイートを削除する
 def del(tweetID, liked, RTed):
