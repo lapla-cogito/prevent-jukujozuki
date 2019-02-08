@@ -1,4 +1,5 @@
 import tweepy
+import twitter
 import datetime
 from datetime import datetime
 from janome.tokenizer import Tokenizer
@@ -22,12 +23,12 @@ def report(liked, RTed):
   api.PostUpdate("1件のツイートがprevent jukujozukiによって削除されました。ツイートした方、残念でしたね。")
 
 #該当ツイートを削除する
-def del(tweetID, liked, RTed):
-  api = 'https://api.twitter.com/1.1/statuses/destroy/' + tweet_ID + '.json'
+def dele(tweetID, liked, RTed):
+  api = 'https://api.twitter.com/1.1/statuses/destroy/' + tweetID + '.json'
   req = twitter.post(api)
   #for debug
   if req.status_code == 200:
-    print("Success Delete!")
+    print("Deleted!")
     report(liked,RTed)
   else:
     print("Error has occured! ErrorCode: %d" % req.status_code)
@@ -64,7 +65,7 @@ def check():
       
       #条件を満たしていれば削除行程へ
     if watashiha and (jukujo or rorikon):
-      del(tweet.id,tweet.favorite_count,tweet.retweet_count)
+      dele(tweet.id,tweet.favorite_count,tweet.retweet_count)
     else:
       print("It seems that there is no tweet to delete...")
     #for debug
